@@ -9,5 +9,5 @@ export const config = {
     
     // Site disabled settings
     siteDisabled: true,
-    disabledRedirectionLink: "https://eglc-mttools.github.io/unauthorized/"
+    disabledRedirectionLink: "https://eglc-mttools.github.io/unauthorized"
 };
