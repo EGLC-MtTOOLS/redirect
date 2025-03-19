@@ -1,0 +1,139 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <style>
+        body {
+            background-color: orange;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        
+        .redirect-message {
+            text-align: center;
+        }
+
+        .password-container {
+            margin-bottom: 20px;
+        }
+
+        .password-input {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-right: 10px;
+            width: 200px;
+        }
+
+        .submit-button {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+            position: fixed;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: top 0.5s ease-in-out;
+        }
+
+        .error-message.show {
+            top: 20px;
+        }
+    </style>
+    <script type="module">
+        import { config } from './config.js';
+
+        window.onload = function() {
+            const passwordContainer = document.getElementById('passwordContainer');
+            const redirectMessage = document.getElementById('redirectMessage');
+
+            // Check if site is disabled
+            if (config.siteDisabled) {
+                window.location.href = config.disabledRedirectionLink;
+                return;
+            }
+
+            // Check if password protection is enabled
+            if (config.passwordEnabled) {
+                passwordContainer.style.display = 'block';
+                redirectMessage.innerHTML = 'Please enter password to continue:';
+            } else {
+                // No password required, redirect immediately
+                window.location.href = config.redirectionLink;
+            }
+        }
+
+        // Expose function to global scope for the onclick handler
+        window.checkPassword = function() {
+            const passwordInput = document.getElementById('passwordInput');
+            const password = passwordInput.value;
+            
+            if (password === config.password) {
+                // Correct password, redirect
+                window.location.href = config.redirectionLink;
+            } else {
+                // Incorrect password, show error message
+                showErrorMessage();
+            }
+        }
+
+        let errorAnimationTimeout = null;
+        
+        function showErrorMessage() {
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Clear any existing animation timeouts
+            if (errorAnimationTimeout) {
+                clearTimeout(errorAnimationTimeout);
+            }
+            
+            // Reset the animation by removing and re-adding the class
+            errorMessage.classList.remove('show');
+            
+            // Force reflow
+            void errorMessage.offsetWidth;
+            
+            // Add the class to start the animation
+            errorMessage.classList.add('show');
+            
+            // Set timeout to remove the class after animation completes
+            errorAnimationTimeout = setTimeout(() => {
+                errorMessage.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</head>
+<body>
+    <div id="errorMessage" class="error-message">Invalid password!</div>
+    
+    <div class="redirect-message">
+        <h1 id="redirectMessage">Redirecting...</h1>
+        
+        <div id="passwordContainer" class="password-container" style="display: none;">
+            <input type="password" id="passwordInput" class="password-input" placeholder="Enter password">
+            <button onclick="checkPassword()" class="submit-button">Submit</button>
+        </div>
+        
+        <p>If you are not redirected automatically, <a href="#" onclick="window.location.href='https://vihaangayakwad.github.io/ClassroomBypass/'" style="color: white;">click here</a>.</p>
+    </div>
+</body>
+</html>
