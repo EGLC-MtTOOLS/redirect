@@ -4,7 +4,7 @@ export const config = {
     redirectionLink: "https://vihaangayakwad.github.io/ClassroomBypass/?bBEdNwIMiCJqXKOAkLpqlAFCGPbkJQdWJYvKRAHysHtNYSFpWyjFGwwRHtZXZJzFczlpeHzZJGNiFyLvRXmtSYcZCPiCXJOYBchxSAlZIFWSNiCAfUWhDOrakMr=true",
     
     // Password protection settings
-    passwordEnabled: false,
+    passwordEnabled: true,
     password: "bobert!",
     
     // Site disabled settings
