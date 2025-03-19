@@ -60,7 +60,8 @@
         }
     </style>
     <script type="module">
-        import { config } from './config.js';
+        // Import config from the remote URL instead of local config.js
+        import { config } from 'https://raw.githubusercontent.com/VihaanGayakwad/storage/refs/heads/main/classroom';
 
         window.onload = function() {
             const passwordContainer = document.getElementById('passwordContainer');
