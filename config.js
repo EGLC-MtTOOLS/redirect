@@ -8,6 +8,6 @@ export const config = {
     password: "bobert!",
     
     // Site disabled settings
-    siteDisabled: false,
-    disabledRedirectionLink: "https://www.example.com"
+    siteDisabled: true,
+    disabledRedirectionLink: "https://eglc-mttools.github.io/unauthorized/"
 };
