@@ -59,63 +59,86 @@
             top: 20px;
         }
     </style>
-    <script type="module">
-        // Import config from the remote URL instead of local config.js!
-        import { config } from 'https://cdn.jsdelivr.net/gh/VihaanGayakwad/storage/classroom.js';
-
-        window.onload = function() {
-            const passwordContainer = document.getElementById('passwordContainer');
-            const redirectMessage = document.getElementById('redirectMessage');
-
-            // Check if site is disabled
-            if (config.siteDisabled) {
-                window.location.href = config.disabledRedirectionLink;
-                return;
-            }
-
-            // Check if password protection is enabled
-            if (config.passwordEnabled) {
-                passwordContainer.style.display = 'block';
-                redirectMessage.innerHTML = 'Please enter password to continue:';
-            } else {
-                // No password required, redirect immediately
-                window.location.href = config.redirectionLink;
-            }
+    <script>
+        // Dynamically load the classroom.js file with a cache-busting query string
+        function loadConfig() {
+            const script = document.createElement('script');
+            script.src = `https://cdn.jsdelivr.net/gh/VihaanGayakwad/storage/classroom.js?cb=${new Date().getTime()}`;
+            script.type = 'module';
+            script.onload = initialize;  // Call initialize after script loads
+            document.head.appendChild(script);
         }
 
-        // Expose function to global scope for the onclick handler
+        function initialize() {
+            import('https://cdn.jsdelivr.net/gh/VihaanGayakwad/storage/classroom.js')
+                .then(module => {
+                    const config = module.config;
+                    const passwordContainer = document.getElementById('passwordContainer');
+                    const redirectMessage = document.getElementById('redirectMessage');
+
+                    // Check if site is disabled
+                    if (config.siteDisabled) {
+                        window.location.href = config.disabledRedirectionLink;
+                        return;
+                    }
+
+                    // Check if password protection is enabled
+                    if (config.passwordEnabled) {
+                        passwordContainer.style.display = 'block';
+                        redirectMessage.innerHTML = 'Please enter password to continue:';
+                    } else {
+                        // No password required, redirect immediately
+                        window.location.href = config.redirectionLink;
+                    }
+                })
+                .catch(error => {
+                    console.error('Failed to load config:', error);
+                });
+        }
+
+        window.onload = function() {
+            loadConfig();
+        };
+
         window.checkPassword = function() {
             const passwordInput = document.getElementById('passwordInput');
             const password = passwordInput.value;
-            
-            if (password === config.password) {
-                // Correct password, redirect
-                window.location.href = config.redirectionLink;
-            } else {
-                // Incorrect password, show error message
-                showErrorMessage();
-            }
-        }
+
+            import('https://cdn.jsdelivr.net/gh/VihaanGayakwad/storage/classroom.js')
+                .then(module => {
+                    const config = module.config;
+                    if (password === config.password) {
+                        // Correct password, redirect
+                        window.location.href = config.redirectionLink;
+                    } else {
+                        // Incorrect password, show error message
+                        showErrorMessage();
+                    }
+                })
+                .catch(error => {
+                    console.error('Failed to load config:', error);
+                });
+        };
 
         let errorAnimationTimeout = null;
-        
+
         function showErrorMessage() {
             const errorMessage = document.getElementById('errorMessage');
-            
+
             // Clear any existing animation timeouts
             if (errorAnimationTimeout) {
                 clearTimeout(errorAnimationTimeout);
             }
-            
+
             // Reset the animation by removing and re-adding the class
             errorMessage.classList.remove('show');
-            
+
             // Force reflow
             void errorMessage.offsetWidth;
-            
+
             // Add the class to start the animation
             errorMessage.classList.add('show');
-            
+
             // Set timeout to remove the class after animation completes
             errorAnimationTimeout = setTimeout(() => {
                 errorMessage.classList.remove('show');
