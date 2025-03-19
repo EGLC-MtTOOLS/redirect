@@ -4,10 +4,10 @@ export const config = {
     redirectionLink: "https://vihaangayakwad.github.io/ClassroomBypass/?bBEdNwIMiCJqXKOAkLpqlAFCGPbkJQdWJYvKRAHysHtNYSFpWyjFGwwRHtZXZJzFczlpeHzZJGNiFyLvRXmtSYcZCPiCXJOYBchxSAlZIFWSNiCAfUWhDOrakMr=true",
     
     // Password protection settings
-    passwordEnabled: true,
+    passwordEnabled: false,
     password: "bobert!",
     
     // Site disabled settings
-    siteDisabled: false,
+    siteDisabled: true,
     disabledRedirectionLink: "https://eglc-mttools.github.io/unauthorized/"
 };
