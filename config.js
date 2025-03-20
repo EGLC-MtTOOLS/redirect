@@ -16,6 +16,6 @@ export const config = {
   password: "bobert!",
 
   // Site disabled settings
-  siteDisabled: false,
+  siteDisabled: true,
   disabledRedirectionLink: "https://eglc-mttools.github.io/unauthorized"
 };
