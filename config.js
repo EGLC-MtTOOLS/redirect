@@ -11,11 +11,11 @@ export const config = {
     return result;
   })(),
 
-  // Password protection settings
+  // Password protection settings:
   passwordEnabled: false,
   password: "bobert!",
 
-  // Site disabled settings
+  // Site disabled settings:
   siteDisabled: true,
   disabledRedirectionLink: "https://eglc-mttools.github.io/unauthorized"
 };
